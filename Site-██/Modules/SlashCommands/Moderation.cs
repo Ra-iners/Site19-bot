@@ -33,6 +33,7 @@ namespace Site___.Modules.SlashCommands
 
             try
             {
+                Reason = Reason.ParseRules();
                 EmbedBuilder e = new EmbedBuilder();
                 e.WithTitle(":tools: Kicked!");
                 e.WithDescription($"You have been kicked from **{Context.Guild.Name}**");
@@ -70,6 +71,7 @@ namespace Site___.Modules.SlashCommands
 
             try
             {
+                Reason = Reason.ParseRules();
                 EmbedBuilder e = new EmbedBuilder();
                 e.WithTitle(":tools: Banned!");
                 e.WithDescription($"You have been banned from **{Context.Guild.Name}**");
@@ -106,6 +108,7 @@ namespace Site___.Modules.SlashCommands
 
             try
             {
+                Reason = Reason.ParseRules();
                 EmbedBuilder e = new EmbedBuilder();
                 e.WithTitle(":tools: Soft-Banned!");
                 e.WithDescription($"You have been banned from **{Context.Guild.Name}**");
@@ -136,6 +139,7 @@ namespace Site___.Modules.SlashCommands
                 await FollowupAsync("Missing permissions, please contact Rai if you think this is a mistake.");
                 return;
             }
+            Reason = Reason.ParseRules();
 
             List<RestBan> Matches = new List<RestBan>();
             foreach (var Banned in await Context.Guild.GetBansAsync(5000).FlattenAsync())
@@ -190,10 +194,11 @@ namespace Site___.Modules.SlashCommands
 
             try
             {
+                Reason = Reason.ParseRules();
                 EmbedBuilder e = new EmbedBuilder();
                 e.WithTitle($"Warning received!");
                 e.WithDescription($"You have received a warning in **{Context.Guild.Name}**");
-                e.AddField("Reason", Reason);
+                e.AddField("Reason", $"```{Reason}```");
                 e.WithColor(Color.Orange);
                 e.WithFooter($"Warned by: {Context.User}", Context.User.GetAvatarUrl() ?? Context.User.GetDefaultAvatarUrl());
                 await User.SendMessageAsync(embed: e.Build());
@@ -282,7 +287,8 @@ Reason: {Warning.Reason}");
 
             try
             {
-                if(Days==0&&Hours==0&&Minutes==0)
+                Reason = Reason.ParseRules();
+                if (Days==0&&Hours==0&&Minutes==0)
                 {
                     await FollowupAsync("Atleast 1 time format (days, hours, minutes) is needed for this command");
                     return;
@@ -332,8 +338,8 @@ Reason: {Warning.Reason}");
                 await FollowupAsync("Missing permissions, please contact Rai if you think this is a mistake.");
                 return;
             }
-
-            if(User.TimedOutUntil > DateTime.UtcNow || User.TimedOutUntil != null)
+            Reason = Reason.ParseRules();
+            if (User.TimedOutUntil > DateTime.UtcNow || User.TimedOutUntil != null)
             {
                 await User.RemoveTimeOutAsync();
                 await FollowupAsync("User was unmuted successfully");

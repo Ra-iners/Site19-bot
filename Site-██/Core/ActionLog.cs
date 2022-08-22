@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,21 @@ namespace Site___.Core
     internal static class ActionLog
     {
         static DiscordWebhookClient Webhook = new DiscordWebhookClient(Globals.Config["LOG_WEBHOOK"].ToString());
-        public static async void Send(string Reason, string Avatar=null, string Name=null)
+        public static async void Send(string Reason, string Avatar=null, string Name=null, bool incrimentCase=true)
         {
-            await Webhook.SendMessageAsync(Reason, username: Name, avatarUrl: Avatar);
+            int CaseID = getCaseId();
+            await Webhook.SendMessageAsync($"**CASE {CaseID}** | {Reason}", username: Name, avatarUrl: Avatar);
+            if (incrimentCase)
+                incrimentCaseID();
         }
-        public static async void Send(string Reason, IUser Caller)
+        public static async void Send(string Reason, IUser Caller, bool incrimentCase=false) =>
+            Send(Reason, Caller.GetAvatarUrl() ?? Caller.GetDefaultAvatarUrl(), $"{Caller}", incrimentCase);
+
+        public static int getCaseId()
         {
-            await Webhook.SendMessageAsync(Reason, username: $"{Caller}", avatarUrl: Caller.GetAvatarUrl()??Caller.GetDefaultAvatarUrl());
+            int CurrentID = int.Parse(File.ReadAllText("Database/CaseID.txt"));
+            return CurrentID;
         }
+        public static void incrimentCaseID()=>File.WriteAllText("Database/CaseID.txt", (getCaseId() + 1).ToString());
     }
 }

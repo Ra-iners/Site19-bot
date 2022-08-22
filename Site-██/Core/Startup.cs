@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tweetinvi;
 
 namespace Site___.Core
 {
@@ -61,15 +62,27 @@ namespace Site___.Core
             Log.Write(severity, msg.Exception, "[{Source}] {Message}", msg.Source, msg.Message);
             await Task.CompletedTask;
         }
+        public void InitalizeServices()
+        {
+            new Modules.Events.onCreateTicket();
+            Globals.QOTD = new Modules.Events.createNewQOTD();
+            new Modules.Events.onUserJoinLeave();
+            new Modules.Events.React2Suggestions();
+            new Modules.Events.RaidWatch();
+            new Modules.Events.randomTweet();
+        }
         static bool Loaded = false;
         private async Task Client_ShardReady(DiscordSocketClient arg)
         {
             if(!Loaded) // We're doing this since the ShardReady can be called several times (i.e bot reconnect)
             {
+                ActionLog.Send("**BOT SHARD STARTED**");
                 Loaded = true;
                 Globals.InteractionService = new InteractionService(arg.Rest);
                 await new SlashCommandHandler(Globals.Client, Globals.InteractionService).InstallCommands();
                 await Globals.InteractionService.RegisterCommandsToGuildAsync(696437457620828250, true);
+
+                InitalizeServices();
             }
         }
     }
