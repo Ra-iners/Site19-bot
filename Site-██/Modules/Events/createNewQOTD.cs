@@ -18,7 +18,7 @@ namespace Site___.Modules.Events
 
         // This is a weird way of doing it but hey it works
         DateTimeOffset QOTDCooldown = new DateTimeOffset();
-        ulong QOTDMain = 755393387988779078;
+        ulong QOTDMain = 846240999609073674;
         ulong QOTDSub = 846241073852055594;
         private async Task onUserMessage(SocketMessage arg)
         {
