@@ -17,9 +17,9 @@ namespace Site___.Core
             int CaseID = getCaseId();
             await Webhook.SendMessageAsync($"**CASE {CaseID}** | {Reason}", username: Name, avatarUrl: Avatar);
             if (incrimentCase)
-                incrimentCaseID();
+                setCaseNumber(CaseID+1);
         }
-        public static async void Send(string Reason, IUser Caller, bool incrimentCase=false) =>
+        public static async void Send(string Reason, IUser Caller, bool incrimentCase=true) =>
             Send(Reason, Caller.GetAvatarUrl() ?? Caller.GetDefaultAvatarUrl(), $"{Caller}", incrimentCase);
 
         public static int getCaseId()
@@ -27,6 +27,7 @@ namespace Site___.Core
             int CurrentID = int.Parse(File.ReadAllText("Database/CaseID.txt"));
             return CurrentID;
         }
-        public static void incrimentCaseID()=>File.WriteAllText("Database/CaseID.txt", (getCaseId() + 1).ToString());
+        // public static void incrimentCaseID()=>File.WriteAllText("Database/CaseID.txt", (getCaseId() + 1).ToString());
+        public static void setCaseNumber(int num) => File.WriteAllText("Database/CaseID.txt", num.ToString());
     }
 }

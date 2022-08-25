@@ -47,7 +47,7 @@ namespace Site___.Modules.Events
                         Medias = Media
                     });
 
-                    IEmote twitter = Emote.Parse("<:TwitterIcon:896051919116709959>");
+                    Emoji twitter = Emoji.Parse("🐦");
                     await msg.AddReactionAsync(twitter);
                         
                 }

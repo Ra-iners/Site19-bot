@@ -42,7 +42,7 @@ namespace Site___.Modules.Events
 
 
             await Thread.SendMessageAsync($"Hello {ctx.User.Mention}, a <@&790157462007185408> member will assist you shortly, please explain your issue in more detail", embed: e.Build());
-            await ctx.FollowupAsync($"A ticket was created in {Thread.Mention}");
+            await ctx.FollowupAsync($"A ticket was created in {Thread.Mention}",ephemeral:true);
         }
     }
 }

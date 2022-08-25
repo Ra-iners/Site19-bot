@@ -48,7 +48,8 @@ namespace Site___.Modules.SlashCommands
             {
                 await Context.Channel.SendMessageAsync($"<@&828263416488787998> invoked by {Context.User}");
                 await RespondAsync("Pinged!");
-                ActivityCooldown = DateTimeOffset.UtcNow.AddHours(3);
+
+                ActivityCooldown = DateTimeOffset.UtcNow.AddHours(12);
             }
             else
             {
@@ -63,6 +64,7 @@ namespace Site___.Modules.SlashCommands
         [SlashCommand("internal", "Internal commands, just some stuff that doesn't have a category")]
         public async Task internalCommands(InternalCommand cmd)
         {
+            
             if (!(Context.User as IGuildUser).HasPermission(GuildPermission.Administrator)) return;
 
             await Context.Interaction.DeferAsync();

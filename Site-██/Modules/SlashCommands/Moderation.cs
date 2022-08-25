@@ -414,8 +414,31 @@ Reason: {Warning.Reason}");
                         toPurge.Add(msg);
             }
 
+            StringBuilder SB = new StringBuilder();
+            foreach(var msg in toPurge)
+            {
+                SB.AppendLine($"{msg.Author}: {msg.Content}");
+                foreach(var att in msg.Attachments)
+                    SB.AppendLine($"Attachment: {att.Url}");
+                SB.AppendLine();
+                
+            }
+            File.WriteAllText("purgeLog.txt", SB.ToString());
+
             try
             {
+                var HOS = Context.Client.GetChannel(966827718626918460) as ITextChannel;
+                await HOS.SendFileAsync("purgeLog.txt", $"{Context.User.Mention} in {Channel.Mention}");
+            }
+            catch
+            {
+                ActionLog.Send("Failed saving log", incrimentCase:false);
+            }
+
+            try
+            {
+                
+
                 await Channel.DeleteMessagesAsync(toPurge);
                 await FollowupAsync("Done!");
                 var msg = await Context.Channel.SendMessageAsync($"Deleted {toPurge.Count} messages with the filter ``{Filter}``");

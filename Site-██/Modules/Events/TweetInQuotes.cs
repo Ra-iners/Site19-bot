@@ -24,7 +24,7 @@ namespace Site___.Modules.Events
         {
             if (msg.Channel.Id != 797827770301677588) return;
 
-            if(msg.Attachments.Count !=0)
+            if(msg.Attachments.Count > 0)
             {
                 var Http = new WebClient();
                 List<IMedia> Media = new List<IMedia>();
@@ -45,7 +45,7 @@ namespace Site___.Modules.Events
                     Medias = Media
                 });
 
-                IEmote twitter = Emote.Parse("<:TwitterIcon:896051919116709959>");
+                Emoji twitter = Emoji.Parse("🐦");
                 await msg.AddReactionAsync(twitter);
             }
         }
