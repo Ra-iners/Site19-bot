@@ -40,14 +40,14 @@ namespace Site___.Modules.SlashCommands
             IRole Level20 = Context.Guild.Roles.First(x => x.Id == 758316485831032852);
             if(!Caller.Roles.Contains(Level20))
             {
-                await RespondAsync("You need to be atleast level 20 to be able to use this command");
+                await RespondAsync("You need to be atleast level 20 to be able to use this command", ephemeral:true);
                 return;
             }
 
             if(ActivityCooldown < DateTimeOffset.UtcNow)
             {
                 await Context.Channel.SendMessageAsync($"<@&828263416488787998> invoked by {Context.User}");
-                await RespondAsync("Pinged!");
+                await RespondAsync("Pinged!", ephemeral: true);
 
                 ActivityCooldown = DateTimeOffset.UtcNow.AddHours(12);
             }

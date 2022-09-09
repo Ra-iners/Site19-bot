@@ -24,7 +24,7 @@ namespace Site___.Modules.Events
         Random rng = new Random();
         private async Task onMessageReceived(SocketMessage msg)
         {
-            if(rng.Next(1,3000) == 5)
+            if(rng.Next(1,3000) == 1)
             {
                 try
                 {

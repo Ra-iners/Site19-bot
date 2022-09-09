@@ -305,7 +305,7 @@ Reason: {Warning.Reason}");
                     e.AddField("Reason", $"```{Reason}```");
                     e.AddField("Mute Duration", $"<t:{unix}:F>");
                     e.WithColor(Color.Red);
-                    e.WithFooter($"Banned by: {Context.User.Username}#{Context.User.Discriminator}", Context.User.GetAvatarUrl() ?? Context.User.GetDefaultAvatarUrl());
+                    e.WithFooter($"Muted by: {Context.User.Username}#{Context.User.Discriminator}", Context.User.GetAvatarUrl() ?? Context.User.GetDefaultAvatarUrl());
                     await User.SendMessageAsync(embed: e.Build());
                 }
                 catch
